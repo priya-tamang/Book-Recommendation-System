@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+    {% block content %}
+      <div class="container">
+        <!-- HERO SECTION-->
+        <section class="py-5 bg-light">
+          <div class="container">
+            <div class="row px-4 px-lg-5 py-lg-4 align-items-center">
+              <div class="col-lg-6">
+                <h1 class="h2 text-uppercase mb-0">Wish List</h1>
+              </div>
+              <div class="col-lg-6 text-lg-right">
+                <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb justify-content-lg-end mb-0 px-0">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Cart</li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {% if wish_products %}
+        <section class="py-5">
+          <h2 class="h5 text-uppercase mb-4">Wish List</h2>
+
+          {% include 'partials/_messages.html' %}
+
+          <div class="row">
+            <div class="col-lg-12 mb-4 mb-lg-0">
+              <!-- CART TABLE-->
+              <div class="table-responsive mb-4">
+                <table class="table">
+                  <thead class="bg-light">
+                    <tr>
+                      <th class="border-0" scope="col"> <strong class="text-small text-uppercase">Product</strong></th>
+                      <th class="border-0" scope="col"> <strong class="text-small text-uppercase">Price</strong></th>
+                      <th class="border-0" scope="col"> <strong class="text-small text-uppercase"></strong></th>
+                      <th class="border-0" scope="col"> </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    {% for wish_product in wish_products %}
+                    <tr>
+                      <th class="pl-0 border-0" scope="row">
+                        <div class="media align-items-center">
+
+                          {% if wish_product.product.product_image %}
+                            <a class="reset-anchor d-block animsition-link" href="{% url 'store:product-detail' wish_product.product.slug %}"><img src="{{wish_product.product.product_image}}" alt="{{wish_product.product.title}}" width="70"/></a>
+                          {% else %}
+                            <a class="reset-anchor d-block animsition-link" href="{% url 'store:product-detail' wish_product.product.slug %}"><img src="{% static 'img/product-detail-3.jpg' %}" alt="{{wish_product.product.title}}" width="70"/></a>
+                          {% endif %}
+
+                          <div class="media-body ml-3"><strong class="h6"><a class="reset-anchor animsition-link" href="{% url 'store:product-detail' wish_product.product.slug %}">{{wish_product.product.title}}</a></strong></div>
+                        </div>
+                      </th>
+                      <td class="align-middle border-0">
+                        <p class="mb-0 small">NPR. {{wish_product.product.price}}</p>
+                      </td>
+                      <td class="align-middle border-0">
+                        <form action="{% url 'store:add-to-cart' %}">
+                            <input type="hidden" name="prod_id" value="{{wish_product.id_pr}}" id="wish_product.id_pr">
+                            <button type="submit" class="btn btn-sm btn-dark">Add to Cart</button>
+                          </form>
+                      </td>
+                     
+                      <td class="align-middle border-0"><a class="reset-anchor" href="{% url 'store:remove-wish' wish_product.id %}"><i class="fas fa-trash-alt small text-muted"></i></a></td>
+                    </tr>
+                    {% endfor %}
+
+                  </tbody>
+                </table>
+              </div>
+              <!-- CART NAV-->
+              <div class="bg-light px-4 py-3">
+                <div class="row align-items-center text-center">
+                  <div class="col-md-6 mb-3 mb-md-0 text-md-left"><a class="btn btn-link p-0 text-dark btn-sm" href="{% url 'store:home' %}"><i class="fas fa-long-arrow-alt-left mr-2"> </i>Continue shopping</a></div>
+               
+                </div>
+              </div>
+            </div>
+            <!-- ORDER TOTAL-->
+    
+
+          </div>
+        </section>
+        
+        {% else %}
+
+          <div class="text-center py-5">
+            <h3 class="mb-3">Your Wish List is empty.</h3>
+            <a href="{% url 'store:home' %}"><i class="fas fa-long-arrow-alt-left mr-2"> </i>Continue shopping</a>
+          </div>
+
+        {% endif %}
+
+      </div>
+      {% endblock content %}
+
+      {% block payment-gateway %}
+        <!-- Include the PayPal JavaScript SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR-PAYPAL-CLIENT-ID&currency=USD"></script>
+
+    <script>
+        // Render the PayPal button into #paypal-button-container
+        paypal.Buttons({
+
+            // Set up the transaction
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: '{{total_amount}}'
+                        }
+                    }]
+                });
+            },
+
+            // Finalize the transaction
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    // Show a success message to the buyer
+                    alert('Transaction completed by ' + details.payer.name.given_name + '!');
+                    // Savind Order in Database after Payment Success
+                    document.getElementById('myform').submit();
+                });
+            }
+
+
+        }).render('#paypal-button-container');
+    </script>
+      {% endblock payment-gateway %}

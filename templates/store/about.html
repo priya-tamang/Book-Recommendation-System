@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% load static %}    
+
+{% block content %}   
+    <!--Start CSS -->
+    <link rel="stylesheet" href="{% static 'vendor/about/css/style.css' %}">
+    {% comment %} <link rel="stylesheet" href="{% static 'vendor/about/css/bootstrap.min.css' %}"> {% endcomment %}
+    <!--End CSS-->
+
+    <!-- ***** About Area Starts ***** -->
+    <div class="about-us">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="left-image">
+                        <img src="{% static 'img/about us.png' %}">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="right-content">
+                        <h2>About Us</h2>
+                        <span>Life is better with books!</span>
+                        <div class="quote">
+                            <i class="fa fa-quote-left"></i>
+                            <p>Our bookstore will fill your bookshelves with tons of new stories to read. 📚📚📚</p>
+                        </div>
+                        <p> The bookstore is one of Nepal's leading book wholesalers. The shelves are brimming with volumes, and the collection is constantly expanding.Take your time looking through the apparently limitless assortment of unique coffee table books and
+                            appealing souvenirs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ***** About Area Ends ***** -->
+{% endblock content %}
+

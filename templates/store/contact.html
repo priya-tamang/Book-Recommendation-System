@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% load static %}    
+
+{% block content %}   
+    <!--Start CSS -->
+    {% comment %} <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet"> {% endcomment %}
+    {% comment %} <link type="text/css" rel="stylesheet" href="CSS/bootstrap.min.css" /> {% endcomment %}
+    {% comment %} <link rel="stylesheet" href="{% static 'vendor/contact/css/bootstrap.min.css' %}">  {% endcomment %}
+    <link rel="stylesheet" href="{% static 'vendor/contact/css/style.css' %}"> 
+    <!--End CSS-->
+
+    <!-- ***** Contact Area Starts ***** -->
+    <div class="contact-us">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div id="map">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14130.92457744433!2d85.33106357097493!3d27.694703324266154!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb199a06c2eaf9%3A0xc5670a9173e161de!2sNew%20Baneshwor%2C%20Kathmandu%2044600!5e0!3m2!1sen!2snp!4v1642956274132!5m2!1sen!2snp"
+                            width="100%" height="400px" frameborder="0" style="border:0" allowfullscreen></iframe>
+                        <!-- You can simply copy and paste "Embed a map" code from Google Maps for any location. -->
+
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="section-heading">
+                        <h2>Contact Us</h2>
+                        {% comment %} <span>Details to details is what makes Hexashop different from the other themes.</span> {% endcomment %}
+                    </div>
+                    <form id="contact" method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <fieldset>
+                                    <input name="name" type="text" id="name" placeholder="Your name" required>
+                                </fieldset>
+                            </div>
+                            <div class="col-lg-6">
+                                <fieldset>
+                                    <input name="email" type="email" id="email" placeholder="Your email" required>
+                                </fieldset>
+                            </div>
+                            <div class="col-lg-12">
+                                <fieldset>
+                                    <textarea name="message" rows="6" id="message" placeholder="Your message" required></textarea>
+                                </fieldset>
+                            </div>
+                            <div class="col-lg-12">
+                                <fieldset>
+                                    <input type="submit"  id="submit" required style="background-color:black; color:white;">
+                                    {% comment %} <button type="submit" id="form-submit" class="main-dark-button"><i class="fa fa-paper-plane"></i></button> {% endcomment %}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ***** Contact Area Ends ***** -->
+
+{% endblock content %}

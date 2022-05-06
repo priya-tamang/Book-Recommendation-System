@@ -1,0 +1,235 @@
+{% extends 'base.html' %}
+{% load static %}
+
+      {% block content %}
+
+      <link rel="stylesheet" href="{% static 'vendor/search/css/css.css' %}">
+      
+    
+      <!-- HERO SECTION-->
+      
+      <div class="container">
+      
+          
+            <style>
+              .carousel-inner img {
+                width: 100%;
+
+              }
+              </style>
+            
+            <div id="demo" class="carousel slide mb-5 h-50" data-ride="carousel">
+              <ul class="carousel-indicators">
+                <li data-target="#demo" data-slide-to="0" class="active"></li>
+                <li data-target="#demo" data-slide-to="1"></li>
+                <li data-target="#demo" data-slide-to="2"></li>
+              </ul>
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img src="{% static 'img/book3.jpg' %}" alt="Los Angeles" width="1100" height="500">
+                  <div class="carousel-caption">
+                    
+                  </div>   
+                </div>
+                <div class="carousel-item">
+                  <img src="{% static 'img/book2.jpg' %}" alt="Chicago" width="1100" height="500">
+                  <div class="carousel-caption">
+                  
+                  </div>   
+                </div>
+                <div class="carousel-item">
+                  <img src="{% static 'img/book1.jpg' %}" alt="New York" width="1100" height="500">
+                  <div class="carousel-caption">
+                   
+                  </div>   
+                </div>
+              </div>
+              <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+              </a>
+              <a class="carousel-control-next" href="#demo" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+              </a>
+            </div>
+  
+
+          {% comment %} <div class="container py-5">
+            <div class="row px-4 px-lg-5">
+              <div class="col-lg-6">
+                <p class="text-muted small text-uppercase mb-2">New Inspiration 2020</p>
+                <h1 class="h2 text-uppercase mb-3">20% off on new season</h1><a class="btn btn-dark" href="{% url 'store:all-categories' %}">Browse collections</a>
+              </div>
+            </div>
+          </div> {% endcomment %}
+          
+
+                <div class="container">
+                  <div class="row height d-flex justify-content-center align-items-center">
+                      <div class="col-md-8">
+                        
+                          <div class="search"> <i class="fa fa-search"></i><form method=POST action="{% url 'store:search' %}">  {% csrf_token %}
+                            <input name="search" type="text" class="form-control" placeholder="Search by Title/Author"> <button class="btn btn-primary">Search</button> </form></div>
+                      </div>
+                  </div>
+                </div>
+        </section>
+
+
+        <!-- CATEGORIES SECTION-->
+        <section class="pt-5">
+          <header class="text-center">
+            <p class="small text-muted small text-uppercase mb-1" >Carefully created collections</p>
+           <a <h2 class="h5 text-uppercase mb-4"  href="{% url 'store:all-categories' %}"> Browse our categories</a></h2>
+          </header>
+          <div class="row">
+          {% if categories %}
+            {% for category in categories %}
+
+              <div class="col-md-4 mb-4 mb-md-0">
+                <a class="category-item" href="{% url 'store:category-products' category.slug %}">
+                  {% if category.category_image %}
+                    <img class="img-fluid" src="{{ category.category_image.url }}" alt="{{ category.title }}">
+                    {% else %}
+                    <img class="img-fluid" src="{% static 'img/cat-img-1.jpg' %}" alt="{{ category.title }}">
+                  {% endif %}
+                  <strong class="category-item-title">{{ category.title }}</strong>
+                </a>
+              </div>
+            
+            {% endfor %}
+          {% endif %}
+          </div>
+        </section>
+        {% comment %} <a  style="padding-button:50px; color:blue; margin-left: 1050px;" href="{% url 'store:all-categories' %}"> View all</a> {% endcomment %}
+
+
+        <!-- TRENDING PRODUCTS-->
+        <section class="py-5">
+          <header>
+            <p class="small text-muted small text-uppercase mb-1">Made the hard way</p>
+            <h2 class="h5 text-uppercase mb-4">Top trending products</h2>
+          </header>
+          <div class="row">
+
+            {% if products %}
+              {% for product in products %}
+              
+                <!-- PRODUCT-->
+                <div class="col-xl-3 col-lg-4 col-sm-6">
+                  <div class="product text-center">
+                    <div class="position-relative mb-3">
+
+                      <div class="badge text-white badge-"></div>
+                      
+                      <a class="d-block" href="{% url 'store:product-detail' product.slug %}">
+                        {% if product.product_image %}
+                          <img class="img-fluid w-100" src="{{ product.product_image }}" alt="{{product.title}} style="width:30px">
+                        {% else %}
+                          <img class="img-fluid w-100" src="{% static 'img/product-1.jpg' %}" alt="{{product.title}}">
+                        {% endif %}
+                      </a>
+
+                      <div class="product-overlay">
+                        <ul class="mb-0 list-inline">
+                          <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-outline-dark" href="{% url 'store:add-to-wishlist' product.id %}"><i class="far fa-heart"></i></a></li>
+                          <li class="list-inline-item m-0 p-0">
+                            {% comment %} <a class="btn btn-sm btn-dark" href="{% url 'store:add-to-cart' %}">Add to cart</a> {% endcomment %}
+
+                            <form action="{% url 'store:add-to-cart' %}">
+                              <input type="hidden" name="prod_id" value="{{product.id}}" id="product_id">
+                              <button type="submit" class="btn btn-sm btn-dark">Add to Cart</button>
+                            </form>
+
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <h6> <a class="reset-anchor" href="{% url 'store:product-detail' product.slug %}">{{ product.title }}</a></h6>
+                    <p class="small text-muted">NPR. {{product.price}}</p>
+                  </div>
+                </div>
+
+              {% endfor %}
+            {% endif %}
+
+            
+
+          </div>
+        </section>
+
+
+        <!-- SERVICES-->
+        <section class="py-5 bg-light">
+          <div class="container">
+            <div class="row text-center">
+              <div class="col-lg-4 mb-3 mb-lg-0">
+                <div class="d-inline-block">
+                  <div class="media align-items-end">
+                    <svg class="svg-icon svg-icon-big svg-icon-light">
+                      <use xlink:href="#delivery-time-1"> </use>
+                    </svg>
+                    <div class="media-body text-left ml-3">
+                      <h6 class="text-uppercase mb-1">Free shipping</h6>
+                      <p class="text-small mb-0 text-muted">Free shipping worlwide</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 mb-3 mb-lg-0">
+                <div class="d-inline-block">
+                  <div class="media align-items-end">
+                    <svg class="svg-icon svg-icon-big svg-icon-light">
+                      <use xlink:href="#helpline-24h-1"> </use>
+                    </svg>
+                    <div class="media-body text-left ml-3">
+                      <h6 class="text-uppercase mb-1">24 x 7 service</h6>
+                      <p class="text-small mb-0 text-muted">Free shipping worlwide</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="d-inline-block">
+                  <div class="media align-items-end">
+                    <svg class="svg-icon svg-icon-big svg-icon-light">
+                      <use xlink:href="#label-tag-1"> </use>
+                    </svg>
+                    <div class="media-body text-left ml-3">
+                      <h6 class="text-uppercase mb-1">Festival offer</h6>
+                      <p class="text-small mb-0 text-muted">Free shipping worlwide</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <br>
+        <br>
+
+
+        <!-- NEWSLETTER-->
+        {% comment %} <section class="py-5">
+          <div class="container p-0">
+            <div class="row">
+              <div class="col-lg-6 mb-3 mb-lg-0">
+                <h5 class="text-uppercase">Let's be friends!</h5>
+                <p class="text-small text-muted mb-0">Nisi nisi tempor consequat laboris nisi.</p>
+              </div>
+              <div class="col-lg-6">
+                <form action="#">
+                  <div class="input-group flex-column flex-sm-row mb-3">
+                    <input class="form-control form-control-lg py-3" type="email" placeholder="Enter your email address" aria-describedby="button-addon2">
+                    <div class="input-group-append">
+                      <button class="btn btn-dark btn-block" id="button-addon2" type="submit">Subscribe</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section> {% endcomment %}
+      </div>
+      {% endblock content %}
+      
+      
