@@ -14,11 +14,7 @@
 ### C. Registered Users Can Can
 1. All ot Non-Registered Users
 2. Add to Cart
-<<<<<<< HEAD
 3. Pay with khalti 
-=======
-3. Pay with Khalti
->>>>>>> e231360b406573a77f11289ec85766922435070f
 4. See the Order Status
 5. See Order History
 6. Update Profile 
