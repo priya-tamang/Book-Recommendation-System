@@ -20,4 +20,3 @@
 6. Update Profile 
 7. Change Password
 8. Reset Password
-
